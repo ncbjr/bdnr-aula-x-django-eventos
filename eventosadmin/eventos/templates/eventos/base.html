@@ -1,0 +1,28 @@
+<!-- eventos/templates/eventos/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Eventos</title>
+</head>
+<body>
+    <header>
+        <h1>Gerenciador de Eventos</h1>
+        <nav>
+            <a href="{% url 'pagina_inicial' %}">Início</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'criar_evento' %}">Criar Evento</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

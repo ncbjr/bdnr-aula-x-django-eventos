@@ -1,0 +1,15 @@
+<!-- eventos/templates/eventos/detalhe_evento.html -->
+
+{% extends 'eventos/base.html' %}
+
+{% block content %}
+    <h2>{{ evento.titulo }}</h2>
+    <p>{{ evento.descricao }}</p>
+    <p>Início: {{ evento.data_hora_inicio }}</p>
+    <p>Término: {{ evento.data_hora_termino }}</p>
+    <p>Local: {{ evento.local }}</p>
+    {% if user == evento.criador %}
+        <a href="{% url 'editar_evento' evento.id %}">Editar</a>
+        <a href="{% url 'excluir_evento' evento.id %}">Excluir</a>
+    {% endif %}
+{% endblock %}

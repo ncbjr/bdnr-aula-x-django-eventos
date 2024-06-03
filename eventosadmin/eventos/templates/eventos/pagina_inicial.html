@@ -1,0 +1,15 @@
+<!-- eventos/templates/eventos/pagina_inicial.html -->
+
+{% extends 'eventos/base.html' %}
+
+{% block content %}
+    <h2>Eventos Futuros</h2>
+    <ul>
+        {% for evento in eventos %}
+            <li>
+                <a href="{% url 'detalhe_evento' evento.id %}">{{ evento.titulo }}</a>
+                - {{ evento.data_hora_inicio }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

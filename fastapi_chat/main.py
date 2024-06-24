@@ -6,9 +6,14 @@ import asyncio
 
 app = FastAPI()
 
+# Configuração do Redis
+redis_client = redis.StrictRedis(host='fastapi_chat_redis_1', port=6379, db=0, password='Redis')
+
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def get():
+    with open("templates/chat.html") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
 
 class ConnectionManager:
     def __init__(self):
@@ -39,12 +44,12 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
-def redis_listener():
+async def redis_listener():
     pubsub = redis_client.pubsub()
     pubsub.subscribe('chat')
-    for message in pubsub.listen():
+    async for message in pubsub.listen():
         if message['type'] == 'message':
-            yield message['data'].decode('utf-8')
+            await manager.broadcast(message['data'].decode('utf-8'))
 
 @app.on_event("startup")
 async def on_startup():

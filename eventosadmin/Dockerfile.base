@@ -1,0 +1,15 @@
+# Start from Python 3.7
+FROM python:3.7
+
+# Copy the project code
+WORKDIR /usr/src/app
+COPY ./requirements.txt /usr/src/app/
+
+# Install the dependencies 
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Container listens on port 8000
+EXPOSE 80
+
+# Running the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
